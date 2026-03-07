@@ -1,0 +1,59 @@
+
+
+.priceListVertical {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.pricePeaks{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px;
+  font-size: 1em;
+  color: var(--text-primary);
+}
+.pricePeaks div{
+  background: linear-gradient(120deg, #ff8800, #b100d0);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  border: 2px solid #efefef;
+}
+.priceListVertical ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.priceListVertical ul li {
+  /* background-color: #350035; */
+  display: flex;
+  gap: 16px;
+  padding-left: 8px;
+  width:100%;
+  box-sizing: content-box;
+}
+
+.priceTimeBlock{
+  color: #ff00f2;
+}
+
+.selectedPrice {
+  border: 2px solid #ffa600;
+  margin-left: -2px;
+}
+
+.number {
+  /* color: #ff00f2; */
+  /* width: 260px; */
+  font-variant-numeric: tabular-nums;
+}
+.units {
+  font-size: 0.6em;
+  color: var(--text-secondary);
+}
