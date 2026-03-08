@@ -1,8 +1,5 @@
-export type Price = {
-  price: number;
-  startDate: string;
-  endDate: string;
-};
+import { Price } from '@/types/Price'
+
 
 export async function getLatestPrices(): Promise<Price[]> {
   const res = await fetch('https://api.porssisahko.net/v2/latest-prices.json', {
@@ -10,5 +7,6 @@ export async function getLatestPrices(): Promise<Price[]> {
   });
   if (!res.ok) throw new Error('Failed to fetch prices');
   const data = await res.json();
-  return data.prices;
+
+  return data.prices.reverse(); // Reverse to get oldest first
 }

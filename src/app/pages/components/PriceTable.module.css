@@ -1,13 +1,17 @@
-
+.priceTable{
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  width: 100%;
+}
 
 .priceListVertical {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   width: 100%;
 }
 
-.pricePeaks{
+/* .pricePeaks{
   display: flex;
   justify-content: space-between;
   padding: 0 8px;
@@ -20,7 +24,7 @@
   border-radius: 8px;
   font-weight: 700;
   border: 2px solid #efefef;
-}
+} */
 .priceListVertical ul {
   list-style: none;
   padding: 0;
@@ -31,12 +35,13 @@
 }
 
 .priceListVertical ul li {
-  /* background-color: #350035; */
+  background-color: #350035;
   display: flex;
   gap: 16px;
   padding-left: 8px;
   width:100%;
   box-sizing: content-box;
+  
 }
 
 .priceTimeBlock{
@@ -55,5 +60,29 @@
 }
 .units {
   font-size: 0.6em;
-  color: var(--text-secondary);
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+}
+
+
+/* new */
+.intervalSelection {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.timeIntervalButton{
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 400;
+  border: 2px solid #efefef85;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+.timeIntervalButton.selected {
+  /* background: linear-gradient(120deg, #ff8800, #b100d0); */
+  border-color: #ff8800;
+  font-weight: 700;
+  color: #fff;
 }

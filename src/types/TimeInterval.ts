@@ -1,0 +1,1 @@
+export type TimeInterval = 'eilen' | 'tänään' | 'huomenna' | 'kaikki';
