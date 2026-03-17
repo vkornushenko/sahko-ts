@@ -27,7 +27,7 @@ export default function PriceTable({ priceData }: PriceTableProps) {
 
   const filteredPriceData = filterPriceDataByInterval(priceData, timeInterval);
   const maxPrice = Math.max(...filteredPriceData.map((item) => item.price));
-  console.log(maxPrice);
+  // console.log(maxPrice);
 
   const now = new Date();
 
@@ -52,58 +52,62 @@ export default function PriceTable({ priceData }: PriceTableProps) {
         </div>
 
         <ul>
-  {filteredPriceData.map((item, index) => {
-    const startDate = new Date(item.startDate);
+          {filteredPriceData.map((item, index) => {
+            const startDate = new Date(item.startDate);
 
-    const isNewDay =
-      (timeInterval === TIME_INTERVALS[3] &&
-      startDate.getHours() === 0 &&
-      startDate.getMinutes() === 0) || (index === 0 && timeInterval ===TIME_INTERVALS[3]);
+            const isNewDay =
+              (timeInterval === TIME_INTERVALS[3] &&
+                startDate.getHours() === 0 &&
+                startDate.getMinutes() === 0) ||
+              (index === 0 && timeInterval === TIME_INTERVALS[3]);
 
-    return (
-      <Fragment key={index}>
-        {isNewDay && (
-          <p className={styles.dateLabel}>{startDate.toLocaleDateString('fi-FI', {month: 'long', day: '2-digit'})}</p>
-        )}
+            return (
+              <Fragment key={index}>
+                {isNewDay && (
+                  <p className={styles.dateLabel}>
+                    {startDate.toLocaleDateString('fi-FI', {
+                      month: 'long',
+                      day: '2-digit',
+                    })}
+                  </p>
+                )}
 
-        <li
-          className={
-            now >= startDate && now <= new Date(item.endDate)
-              ? styles.selectedPrice
-              : ''
-          }
-          style={{
-            background: `linear-gradient(to right, #550055 ${(
-              (item.price / maxPrice) *
-              100
-            ).toFixed(0)}%, #2d002d 0%)`,
-          }}
-        >
-          <div className={styles.priceTimeBlock}>
-            <span className={styles.number}>
-              {startDate.getHours().toString().padStart(2, '0')}:
-              {startDate.getMinutes().toString().padStart(2, '0')} -{' '}
-              {new Date(item.endDate)
-                .getHours()
-                .toString()
-                .padStart(2, '0')}
-              :
-              {new Date(item.endDate)
-                .getMinutes()
-                .toString()
-                .padStart(2, '0')}
-            </span>
-          </div>
+                <li
+                  className={
+                    now >= startDate && now <= new Date(item.endDate)
+                      ? styles.selectedPrice
+                      : ''
+                  }
+                  style={{
+                    background: `linear-gradient(to right, #550055 ${(
+                      ((item.price < 0 ? 0 : item.price) / maxPrice) *
+                      100
+                    ).toFixed(0)}%, #2d002d 0%)`,
+                  }}
+                >
+                  <div className={styles.priceTimeBlock}>
+                    <span className={styles.number}>
+                      {startDate.getHours().toString().padStart(2, '0')}:
+                      {startDate.getMinutes().toString().padStart(2, '0')} -{' '}
+                      {new Date(item.endDate)
+                        .getHours()
+                        .toString()
+                        .padStart(2, '0')}
+                      :
+                      {new Date(item.endDate)
+                        .getMinutes()
+                        .toString()
+                        .padStart(2, '0')}
+                    </span>
+                  </div>
 
-          <span className={styles.number}>
-            {item.price.toFixed(2)}
-          </span>
-          <span className={styles.units}>snt/kWh</span>
-        </li>
-      </Fragment>
-    );
-  })}
-</ul>
+                  <span className={styles.number}>{item.price.toFixed(2)}</span>
+                  <span className={styles.units}>snt/kWh</span>
+                </li>
+              </Fragment>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
