@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 
 import styles from './PriceTable.module.css';
 
@@ -52,52 +52,58 @@ export default function PriceTable({ priceData }: PriceTableProps) {
         </div>
 
         <ul>
-          {filteredPriceData.map((item, index) => (
-            <li
-              key={index}
-              className={
-                now >= new Date(item.startDate) && now <= new Date(item.endDate)
-                  ? styles.selectedPrice
-                  : ''
-              }
-              style={{
-                background: `linear-gradient(to right, #550055 ${(
-                  (item.price / maxPrice) *
-                  100
-                ).toFixed(0)}%, #2d002d 0%)`,
-              }}
-            >
-              <div className={styles.priceTimeBlock}>
-                <span className={styles.number}>
-                  {new Date(item.startDate)
-                    .getHours()
-                    .toString()
-                    .padStart(2, '0')}
-                  :
-                  {new Date(item.startDate)
-                    .getMinutes()
-                    .toString()
-                    .padStart(2, '0')}{' '}
-                  -{' '}
-                  {new Date(item.endDate)
-                    .getHours()
-                    .toString()
-                    .padStart(2, '0')}
-                  :
-                  {new Date(item.endDate)
-                    .getMinutes()
-                    .toString()
-                    .padStart(2, '0')}
-                </span>
-              </div>
-              <span className={styles.number}>{item.price.toFixed(2)}</span>
-              <span className={styles.units}>snt/kWh</span>
-              {/* <span className={styles.number}>
-                {((item.price / maxPrice) * 100).toFixed(0)} %
-              </span> */}
-            </li>
-          ))}
-        </ul>
+  {filteredPriceData.map((item, index) => {
+    const startDate = new Date(item.startDate);
+
+    const isNewDay =
+      (timeInterval === TIME_INTERVALS[3] &&
+      startDate.getHours() === 0 &&
+      startDate.getMinutes() === 0) || (index === 0 && timeInterval ===TIME_INTERVALS[3]);
+
+    return (
+      <Fragment key={index}>
+        {isNewDay && (
+          <p className={styles.dateLabel}>{startDate.toLocaleDateString('fi-FI', {month: 'long', day: '2-digit'})}</p>
+        )}
+
+        <li
+          className={
+            now >= startDate && now <= new Date(item.endDate)
+              ? styles.selectedPrice
+              : ''
+          }
+          style={{
+            background: `linear-gradient(to right, #550055 ${(
+              (item.price / maxPrice) *
+              100
+            ).toFixed(0)}%, #2d002d 0%)`,
+          }}
+        >
+          <div className={styles.priceTimeBlock}>
+            <span className={styles.number}>
+              {startDate.getHours().toString().padStart(2, '0')}:
+              {startDate.getMinutes().toString().padStart(2, '0')} -{' '}
+              {new Date(item.endDate)
+                .getHours()
+                .toString()
+                .padStart(2, '0')}
+              :
+              {new Date(item.endDate)
+                .getMinutes()
+                .toString()
+                .padStart(2, '0')}
+            </span>
+          </div>
+
+          <span className={styles.number}>
+            {item.price.toFixed(2)}
+          </span>
+          <span className={styles.units}>snt/kWh</span>
+        </li>
+      </Fragment>
+    );
+  })}
+</ul>
       </div>
     </div>
   );
